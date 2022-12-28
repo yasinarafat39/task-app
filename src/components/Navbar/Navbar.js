@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
+import avatar from '../../assets/Profile-Picture-Avatar.jpg';
+
 
 const Navbar = () => {
 
-    const { user, userLogout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
@@ -32,16 +34,7 @@ const Navbar = () => {
         },
     ]
 
-    // Logout system
-    const handleLogout = () => {
-        userLogout()
-            .then(() => {
-                toast.success("Logout Success!");
-            })
-            .catch(error => {
-                toast.error(error?.message);
-            })
-    }
+
 
     return (
         <div className=" px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -83,14 +76,22 @@ const Navbar = () => {
 
                             <>
                                 <li>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                                    {
 
-                                    >
-                                        Logout
-                                    </button>
+                                        <img
+                                            className=' border rounded-full '
+                                            src={user.photoURL ? user.photoURL : avatar} width="40" height="25" alt="" />
+                                    }
                                 </li>
+                                <li>
+                                    <Link
+                                        to="/details"
+                                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                                    >
+                                        Details
+                                    </Link>
+                                </li>
+
                             </>
                             :
                             <>
@@ -194,14 +195,22 @@ const Navbar = () => {
 
                                                 <>
                                                     <li>
-                                                        <button
-                                                            onClick={handleLogout}
-                                                            className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                                                        {
 
-                                                        >
-                                                            Logout
-                                                        </button>
+                                                            <img
+                                                                className=' border rounded-full '
+                                                                src={user.photoURL ? user.photoURL : avatar} width="40" height="25" alt="" />
+                                                        }
                                                     </li>
+                                                    <li>
+                                                        <Link
+                                                            to="/details"
+                                                            className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                                                        >
+                                                            Details
+                                                        </Link>
+                                                    </li>
+
                                                 </>
                                                 :
                                                 <>
