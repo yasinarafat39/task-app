@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 
 const Login = () => {
 
-    const { LoginWithGoogle, loginUser } = useContext(AuthContext);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { LoginWithGoogle, loginUser, passwordReset } = useContext(AuthContext);
+    const { register, getValues, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
 
 
@@ -33,21 +33,36 @@ const Login = () => {
     }
 
 
-
-
-
-
     // Google Login
     const handleGoogleLogin = () => {
         LoginWithGoogle()
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                toast.success("Login Success!");
             })
             .catch(error => {
                 toast.error(error.message)
             })
     }
+
+
+    // Password Reset 
+    const handlePasswordReset = () => {
+
+        const email = getValues('email');
+
+        passwordReset(email)
+            .then(() => {
+                toast.success("Password Reset Email already send to your email address.")
+            })
+            .catch(error => {
+                toast.error(error.message);
+            })
+    }
+
+
+
 
     return (
         <div className="w-full max-w-md mx-auto mt-12    p-8 space-y-3 rounded-xl  bg-gray-300 text-gray-800">
@@ -66,7 +81,7 @@ const Login = () => {
                     {errors.password && <p className='text-red-400'>{errors.password.message}</p>}
 
                     <div className="flex justify-end text-gray-600">
-                        <button className='mt-3'>Forgot Password?</button>
+                        <p onClick={handlePasswordReset} className='mt-3'>Forgot Password?</p>
                     </div>
                 </div>
 
