@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 
 const Navbar = () => {
 
+    const { user } = useContext(AuthContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
@@ -65,15 +67,43 @@ const Navbar = () => {
 
                 </ul>
                 <ul className="flex items-center hidden space-x-8 lg:flex">
-                    <li>
-                        <Link
-                            to="/register"
-                            className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                    {
+                        user?.uid ?
 
-                        >
-                            Register
-                        </Link>
-                    </li>
+                            <>
+                                <li>
+                                    <button
+
+                                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+
+                                    >
+                                        Logout
+                                    </button>
+                                </li>
+                            </>
+                            :
+                            <>
+                                <li>
+                                    <Link
+                                        to="/register"
+                                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+
+                                    >
+                                        Register
+                                    </Link>
+                                </li>
+
+                                <li>
+                                    <Link
+                                        to="/login"
+                                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                            </>
+                    }
                 </ul>
                 <div className="lg:hidden">
                     <button
@@ -148,15 +178,45 @@ const Navbar = () => {
                                         }
 
 
-                                        <li>
-                                            <Link
-                                                to="/register"
-                                                className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+                                        {
+                                            user?.uid ?
 
-                                            >
-                                                Register
-                                            </Link>
-                                        </li>
+                                                <>
+                                                    <li>
+                                                        <button
+
+                                                            className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+
+                                                        >
+                                                            Logout
+                                                        </button>
+                                                    </li>
+                                                </>
+                                                :
+                                                <>
+                                                    <li>
+                                                        <Link
+                                                            to="/register"
+                                                            className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+
+                                                        >
+                                                            Register
+                                                        </Link>
+                                                    </li>
+
+                                                    <li>
+                                                        <Link
+                                                            to="/login"
+                                                            className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
+
+                                                        >
+                                                            Login
+                                                        </Link>
+                                                    </li>
+                                                </>
+                                        }
+
+
                                     </ul>
                                 </nav>
                             </div>
