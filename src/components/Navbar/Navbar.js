@@ -79,6 +79,7 @@ const Navbar = () => {
                                     {
 
                                         <img
+                                            title={user.displayName}
                                             className=' border rounded-full '
                                             src={user.photoURL ? user.photoURL : avatar} width="40" height="25" alt="" />
                                     }
