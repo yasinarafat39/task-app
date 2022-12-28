@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom';
 
 import googleIcon from '../../assets/Google__Logo.png';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
+import { useForm } from "react-hook-form";
 
 
 
 const Register = () => {
 
     const { createUser, LoginWithGoogle } = useContext(AuthContext);
+    const { register, getValues, handleSubmit, formState: { errors } } = useForm();
+
+
 
     // Google Login
     const handleGoogleLogin = () => {
@@ -23,35 +27,45 @@ const Register = () => {
             })
     }
 
+
+    // User Register 
+    const handleRegister = data => {
+        console.log(data);
+    }
+
     return (
         <div className="w-full max-w-md mx-auto mt-12    p-8 space-y-3 rounded-xl  bg-gray-300 text-gray-800">
             <h1 className="text-2xl font-bold text-center">Register</h1>
-            <form className="space-y-6 ng-untouched ng-pristine ng-valid">
+            <form onSubmit={handleSubmit(handleRegister)} className="space-y-6 ng-untouched ng-pristine ng-valid">
 
                 <div className="space-y-1 text-sm">
                     <label htmlFor="Name" className="block text-gray-600">Name</label>
-                    <input type="text" name="Name" id="Name" placeholder="Name" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    <input {...register("name", { required: "Name is required" })} type="text" id="Name" placeholder="Name" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    {errors.name && <p className='text-red-400'>{errors.name.message}</p>}
                 </div>
 
                 <div className="space-y-1 text-sm">
                     <label htmlFor="Email" className="block text-gray-600">Email</label>
-                    <input type="email" name="Email" id="Email" placeholder="Email" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    <input {...register("email", { required: "Email is required" })} type="email" id="Email" placeholder="Email" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    {errors.email && <p className='text-red-400'>{errors.email.message}</p>}
                 </div>
 
                 <div className="space-y-1 text-sm">
                     <label htmlFor="password" className="block text-gray-600">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
-
+                    <input {...register("password", { required: "Password is required" })} type="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    {errors.password && <p className='text-red-400'>{errors.password.message}</p>}
                 </div>
 
                 <fieldset className="w-full text-gray-800">
                     <label htmlFor="files" className="block text-sm font-medium">Profile Photo</label>
                     <div className="flex">
-                        <input type="file" name="files" id="files" className=" w-full px-8 py-3 border-2 border-dashed rounded-md border-gray-300 text-gray-600 bg-gray-100" />
+                        <input {...register("profilePhoto", { required: "Profile photo is required" })} type="file" id="files" className=" w-full px-8 py-3 border-2 border-dashed rounded-md border-gray-300 text-gray-600 bg-gray-100" />
                     </div>
+                    {errors.profilePhoto && <p className='text-red-400'>{errors.profilePhoto.message}</p>}
                 </fieldset>
 
                 <button
+                    type='submit'
                     className=" inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
                 >
                     Register
