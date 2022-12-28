@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import googleIcon from '../../assets/Google__Logo.png';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
@@ -10,10 +10,11 @@ import { useForm } from "react-hook-form";
 
 const Register = () => {
 
-    const { createUser, LoginWithGoogle } = useContext(AuthContext);
+    const { createUser, LoginWithGoogle, updateUser } = useContext(AuthContext);
     const { register, getValues, handleSubmit, formState: { errors } } = useForm();
-
-
+    const imageHostKey = process.env.REACT_APP_imgbb_key
+    console.log(imageHostKey);
+    const navigate = useNavigate();
 
     // Google Login
     const handleGoogleLogin = () => {
@@ -30,7 +31,50 @@ const Register = () => {
 
     // User Register 
     const handleRegister = data => {
-        console.log(data);
+        console.log(data.profilePhoto[0]);
+
+
+        const profilePhoto = data.profilePhoto[0];
+        const formData = new FormData();
+        formData.append('image', profilePhoto);
+
+        const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
+
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+
+                // update user profile 
+                const profile = {
+                    displayName: data.name,
+
+                }
+
+                fetch(url, {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(imgData => {
+                        if (imgData.success) {
+                            console.log(imgData.data.url);
+                            profile.photoURL = imgData.data.url;
+                            updateUser(profile)
+                                .then(() => {
+                                    toast.success('Register Success!');
+                                    console.log(data.email);
+                                    navigate('/');
+                                })
+                                .catch(error => {
+                                    console.error(error.message);
+                                })
+                        }
+                    })
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
 
     return (

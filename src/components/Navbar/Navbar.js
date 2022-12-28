@@ -38,8 +38,8 @@ const Navbar = () => {
             .then(() => {
                 toast.success("Logout Success!");
             })
-            .then(error => {
-                toast.error(error.message);
+            .catch(error => {
+                toast.error(error?.message);
             })
     }
 
