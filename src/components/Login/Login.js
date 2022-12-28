@@ -1,13 +1,40 @@
 import React, { useContext } from 'react';
 import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import googleIcon from '../../assets/Google__Logo.png';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
+import { useForm } from "react-hook-form";
+
+
 
 const Login = () => {
 
-    const { createUser, LoginWithGoogle } = useContext(AuthContext);
+    const { LoginWithGoogle, loginUser } = useContext(AuthContext);
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+
+
+    // user Login
+    const handleLogin = data => {
+        console.log(data);
+
+        loginUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast.success("Login Success!");
+                navigate('/');
+            })
+            .catch(error => {
+                toast.error(error.message);
+            })
+
+    }
+
+
+
+
 
 
     // Google Login
@@ -25,22 +52,23 @@ const Login = () => {
     return (
         <div className="w-full max-w-md mx-auto mt-12    p-8 space-y-3 rounded-xl  bg-gray-300 text-gray-800">
             <h1 className="text-2xl font-bold text-center">Login</h1>
-            <form className="space-y-6 ng-untouched ng-pristine ng-valid">
+            <form onSubmit={handleSubmit(handleLogin)} className="space-y-6 ng-untouched ng-pristine ng-valid">
 
                 <div className="space-y-1 text-sm">
                     <label htmlFor="Email" className="block text-gray-600">Email</label>
-                    <input type="email" name="Email" id="Email" placeholder="Email" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    <input {...register("email", { required: "Email is required" })} type="email" id="Email" placeholder="Email" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    {errors.email && <p className='text-red-400'>{errors.email.message}</p>}
                 </div>
 
                 <div className="space-y-1 text-sm">
                     <label htmlFor="password" className="block text-gray-600">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    <input {...register("password", { required: "Password is required" })} type="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border-purple-400 bg-gray-50 text-gray-800 focus:border-purple-700" />
+                    {errors.password && <p className='text-red-400'>{errors.password.message}</p>}
 
                     <div className="flex justify-end text-gray-600">
                         <button className='mt-3'>Forgot Password?</button>
                     </div>
                 </div>
-
 
                 <button
                     className=" inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-purple-400 hover:bg-purple-700 focus:shadow-outline focus:outline-none"
