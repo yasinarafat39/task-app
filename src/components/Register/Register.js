@@ -13,7 +13,6 @@ const Register = () => {
     const { createUser, LoginWithGoogle, updateUser } = useContext(AuthContext);
     const { register, getValues, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key
-    console.log(imageHostKey);
     const navigate = useNavigate();
 
     // Google Login
