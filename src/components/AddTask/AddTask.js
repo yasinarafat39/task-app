@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 
 import { useForm } from "react-hook-form";
+import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 
 const AddTask = () => {
 
     const { user } = useContext(AuthContext);
-    const { register, getValues, handleSubmit, formState: { errors } } = useForm();
+    const { register, reset, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key
 
 
@@ -44,7 +45,21 @@ const AddTask = () => {
             status: "incomplete"
         }
 
-        console.log(totalTask);
+        fetch('http://localhost:5000/alltask', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(totalTask)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.acknowledged) {
+                    toast.success("Task saved");
+                    reset()
+                }
+            })
     }
 
     return (
