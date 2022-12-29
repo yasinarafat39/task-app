@@ -45,7 +45,7 @@ const AddTask = () => {
             status: "incomplete"
         }
 
-        fetch('http://localhost:5000/alltask', {
+        fetch('https://task-app-server-theta.vercel.app/alltask', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

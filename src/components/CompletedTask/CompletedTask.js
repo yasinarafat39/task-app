@@ -12,7 +12,7 @@ const CompletedTask = () => {
     const { data: completedTask = [], isLoading, refetch } = useQuery({
         queryKey: ['completed task'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/alltask/complete/${user?.email}`)
+            const res = await fetch(`https://task-app-server-theta.vercel.app/alltask/complete/${user?.email}`)
             const data = await res.json();
             return (data);
         }
@@ -25,7 +25,7 @@ const CompletedTask = () => {
 
     const handleMakeIncompleteTask = _id => {
 
-        fetch(`http://localhost:5000/alltask/incomplete/${_id}`, {
+        fetch(`https://task-app-server-theta.vercel.app/alltask/incomplete/${_id}`, {
             method: 'PUT',
         })
             .then(res => res.json())
@@ -44,7 +44,7 @@ const CompletedTask = () => {
         const proceed = window.confirm('Are you sure? You want to delete task');
 
         if (proceed) {
-            fetch(`http://localhost:5000/alltask/${_id}`, {
+            fetch(`https://task-app-server-theta.vercel.app/alltask/${_id}`, {
                 method: "DELETE",
                 headers: {
                     'content-type': 'application/json'

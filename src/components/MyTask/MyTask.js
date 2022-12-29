@@ -15,7 +15,7 @@ const MyTask = () => {
     const { data: myAllTask = [], isLoading, refetch } = useQuery({
         queryKey: ['AllTask'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/alltask?email=${user?.email}`)
+            const res = await fetch(`https://task-app-server-theta.vercel.app/alltask?email=${user?.email}`)
             const data = await res.json();
             return (data);
         }
@@ -29,7 +29,7 @@ const MyTask = () => {
 
     const handleCompleteTask = _id => {
 
-        fetch(`http://localhost:5000/alltask/complete/${_id}`, {
+        fetch(`https://task-app-server-theta.vercel.app/alltask/complete/${_id}`, {
             method: 'PUT',
         })
             .then(res => res.json())
@@ -46,7 +46,7 @@ const MyTask = () => {
         const proceed = window.confirm('Are you sure? You want to delete task');
 
         if (proceed) {
-            fetch(`http://localhost:5000/alltask/${_id}`, {
+            fetch(`https://task-app-server-theta.vercel.app/alltask/${_id}`, {
                 method: "DELETE",
                 headers: {
                     'content-type': 'application/json'
