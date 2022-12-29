@@ -117,7 +117,7 @@ const MyTask = () => {
                             :
                             <>
                                 <h2 className='text-2xl text-gray-500 font-bold text-center my-20'>
-                                    Empty Orders
+                                    Empty Task
                                 </h2>
                             </>
                     }
