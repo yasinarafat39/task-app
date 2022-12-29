@@ -24,11 +24,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/addtask',
-                element: <AddTask></AddTask>
+                element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
             },
             {
                 path: '/mytask',
-                element: <MyTask></MyTask>
+                element: <PrivateRoute><MyTask></MyTask></PrivateRoute>
             },
             {
                 path: '/completedtask',

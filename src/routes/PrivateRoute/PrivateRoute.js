@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import { Navigate, useLocation } from 'react-router-dom';
+import Loading from '../../components/Loading/Loading';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 
 const PrivateRoute = ({ children }) => {
@@ -9,13 +10,9 @@ const PrivateRoute = ({ children }) => {
     const location = useLocation();
 
     if (loading) {
-        return <RotatingLines
-            strokeColor="grey"
-            strokeWidth="5"
-            animationDuration="0.75"
-            width="96"
-            visible={true}
-        />
+        return <div className='text-center'>
+            <Loading></Loading>
+        </div>
     }
 
     if (user) {
